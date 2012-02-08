@@ -1,8 +1,3 @@
-class Array
-  def extract_options!
-    last.is_a?(Hash) ? pop : {}
-  end
-end
 require 'backports/basic_object' unless defined? BasicObject
 
 module OpsDash
