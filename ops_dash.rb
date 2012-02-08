@@ -21,10 +21,6 @@ require_relative 'lib/ops_dash/framework'
 
 module OpsDash
   class App < Sinatra::Base
-    def self.log
-      @logger ||= Logger.new(STDOUT)
-    end
-
     register Sinatra::ConfigFile
     register Sinatra::AdvancedRoutes
     register OpsDash::Framework
@@ -42,10 +38,6 @@ module OpsDash
       log.warn "Unexpected exception: #{e.to_s}"
       log.debug e.backtrace.join("\n\t")
     end
-
     log.debug "App root: #{settings.root}"
-    each_route do |route|
-      log.info "Route defined: #{route.file.gsub(settings.root+'/','')} #{route.verb} #{route.path}"
-    end
   end
 end
