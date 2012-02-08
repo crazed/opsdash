@@ -16,18 +16,10 @@ unless Kernel.respond_to?(:require_relative)
   end
 end
 
-module OpsDash
-  module PluginHelpers
-    def self.load_views(app)
-      path = File.join(File.dirname(caller[0]), 'views')
-      Dir.glob(File.join(path, '*.haml')) do |haml_file|
-        app.template haml_file.split('/').last.gsub('.haml','').to_sym do
-          File.read(haml_file)
-        end
-      end
-    end
-  end
+require_relative 'lib/ops_dash/plugin'
+require_relative 'lib/ops_dash/framework'
 
+module OpsDash
   class App < Sinatra::Base
     def self.log
       @logger ||= Logger.new(STDOUT)
@@ -35,10 +27,9 @@ module OpsDash
 
     register Sinatra::ConfigFile
     register Sinatra::AdvancedRoutes
-    require_relative 'routes/init'
-
+    register OpsDash::Framework
     config_file 'config.yaml'
-
+    require_relative 'routes/init'
     begin
       settings.plugins.each do |plugin|
         init = "plugins/#{plugin}/init.rb"
