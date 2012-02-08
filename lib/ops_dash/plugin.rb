@@ -3,6 +3,7 @@ class Array
     last.is_a?(Hash) ? pop : {}
   end
 end
+require 'backports/basic_object' unless defined? BasicObject
 
 module OpsDash
   module Plugin
