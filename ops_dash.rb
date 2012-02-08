@@ -29,7 +29,7 @@ module OpsDash
     begin
       settings.plugins.each do |plugin|
         init = "plugins/#{plugin}/init.rb"
-        File.exists?(init) ? require_relative(init) : log.debug("Skipping plugin '#{plugin}'.. #{init} does not exist.")
+        File.exists?(init) ? require_relative(init) : log.warn("Skipping plugin '#{plugin}'.. #{init} does not exist.")
       end
       OpsDash::Plugins.constants.each do |plugin|
         register OpsDash::Plugins.const_get(plugin)
