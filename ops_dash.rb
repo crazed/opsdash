@@ -38,6 +38,11 @@ module OpsDash
       log.warn "Unexpected exception: #{e.to_s}"
       log.debug e.backtrace.join("\n\t")
     end
+
+    configure do
+      set :navigation_links, opsdash_plugins
+    end
+
     log.debug "App root: #{settings.root}"
   end
 end
