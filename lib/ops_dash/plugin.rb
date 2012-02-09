@@ -69,11 +69,15 @@ module OpsDash
         root = strip_slashes(plugin_settings[:root])
         route = "/#{root}/#{route}"
       end
-      route
+      strip_trailing_slash(route)
     end
 
     def strip_slashes(string)
       string.gsub(/(^\/|\/$)/,'')
+    end
+
+    def strip_trailing_slash(string)
+      string.gsub(/\/$/,'')
     end
 
     def register_route(method, *args, &block)
