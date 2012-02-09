@@ -3,6 +3,10 @@ module OpsDash
     module TestPlugin
       extend OpsDash::Plugin
 
+      plugin do
+        set :root, 'test' # puts all of your routes starting at /test
+      end
+
       get '/example1', :name => 'Example Page' do
         @page = 'example1'
         haml :test

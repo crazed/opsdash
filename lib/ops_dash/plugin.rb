@@ -22,7 +22,7 @@ module OpsDash
     def registered(app = nil, &block)
       @app = app
       load_views if plugin_settings[:load_views]
-      register_links if plugin_settings[:register_links]
+      register_links unless routes.empty?
       app ? replay(app) : record(:class_eval, &block)
       app.log.info "Loaded #{plugin_settings[:name]} successfully!"
     end
@@ -42,43 +42,49 @@ module OpsDash
     # TODO: investigate why these are already defined by Sinatra
     # method_missing doesn't seem to pick these up since Sinatra::Base has set them
     def get(*args, &block)
-      options = args.extract_options!
-      link = args.first
-      register_link(:get, link, options[:name])
-      record(:get, *args, &block)
+      register_route(:get, *args, &block)
     end
 
     def post(*args, &block)
-      options = args.extract_options!
-      link = args.first
-      register_link(:post, link, options[:name])
-      record(:post, *args, &block)
+      register_route(:post, *args, &block)
     end
 
     def delete(*args, &block)
-      options = args.extract_options!
-      link = args.first
-      register_link(:delete, link, options[:name])
-      record(:delete, *args, &block)
+      register_route(:delete, *args, &block)
     end
 
     def put(*args, &block)
-      options = args.extract_options!
-      link = args.first
-      register_link(:put, link, options[:name])
-      record(:put, *args, &block)
+      register_route(:put, *args, &block)
+    end
+
+    def routes
+      @routes ||= Array.new
     end
 
     private
 
+    def prefix_route(route)
+      route = strip_slashes(route)
+      if plugin_settings[:root]
+        root = strip_slashes(plugin_settings[:root])
+        route = "/#{root}/#{route}"
+      end
+      route
+    end
 
-    def register_link(method, link, name)
-      plugin_settings[:register_links] ||= Array.new
-      plugin_settings[:register_links] << { :method => method, :link => link, :name => name }
+    def strip_slashes(string)
+      string.gsub(/(^\/|\/$)/,'')
+    end
+
+    def register_route(method, *args, &block)
+      options = args.extract_options!
+      link = prefix_route(args.first)
+      routes << { :method => method, :link => link, :name => options[:name] }
+      record(method, link, &block)
     end
 
     def register_links
-      @app.add_opsdash_links(plugin_settings[:name], plugin_settings[:register_links])
+      @app.add_opsdash_links(plugin_settings[:name], routes)
     end
 
     def load_views

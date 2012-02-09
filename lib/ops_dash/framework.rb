@@ -6,8 +6,8 @@ module OpsDash
 
     def add_opsdash_links(plugin_name, links=[])
       links.each do |link|
-        raise "Invalid link definition!" unless link.has_key?(:name) and link.has_key?(:link)
-        log.debug "#{plugin_name} created a route: #{link[:link]}"
+        raise "Invalid link definition!" unless link.has_key?(:link)
+        log.debug "#{plugin_name} created a route: #{link[:method]} #{link[:link]}"
       end
       opsdash_links[plugin_name] = links
     end
