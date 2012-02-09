@@ -44,28 +44,28 @@ module OpsDash
     def get(*args, &block)
       options = args.extract_options!
       link = args.first
-      register_link('GET', link, options[:name])
+      register_link(:get, link, options[:name])
       record(:get, *args, &block)
     end
 
     def post(*args, &block)
       options = args.extract_options!
       link = args.first
-      register_link('POST', link, options[:name])
+      register_link(:post, link, options[:name])
       record(:post, *args, &block)
     end
 
     def delete(*args, &block)
       options = args.extract_options!
       link = args.first
-      register_link('DELETE', link, options[:name])
+      register_link(:delete, link, options[:name])
       record(:delete, *args, &block)
     end
 
     def put(*args, &block)
       options = args.extract_options!
       link = args.first
-      register_link('PUT', link, options[:name])
+      register_link(:put, link, options[:name])
       record(:put, *args, &block)
     end
 
