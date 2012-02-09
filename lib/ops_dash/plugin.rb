@@ -22,7 +22,7 @@ module OpsDash
     def registered(app = nil, &block)
       @app = app
       load_views if plugin_settings[:load_views]
-      register_links unless routes.empty?
+      register_plugin unless routes.empty?
       app ? replay(app) : record(:class_eval, &block)
       app.log.info "Loaded #{plugin_settings[:name]} successfully!"
     end
@@ -83,8 +83,8 @@ module OpsDash
       record(method, link, &block)
     end
 
-    def register_links
-      @app.add_opsdash_links(plugin_settings[:name], routes)
+    def register_plugin
+      @app.register_opsdash_plugin(plugin_settings[:name], routes, plugin_settings[:root])
     end
 
     def load_views

@@ -4,16 +4,12 @@ module OpsDash
       puts "Registered the opsdash framework!"
     end
 
-    def add_opsdash_links(plugin_name, links=[])
-      links.each do |link|
-        raise "Invalid link definition!" unless link.has_key?(:link)
-        log.debug "#{plugin_name} created a route: #{link[:method]} #{link[:link]}"
-      end
-      opsdash_links[plugin_name] = links
+    def register_opsdash_plugin(plugin_name, links, index='/')
+      opsdash_plugins << { :name => plugin_name, :links => links, :index => index }
     end
 
-    def opsdash_links
-      @opsdash_links ||= Hash.new
+    def opsdash_plugins
+      @opsdash_plugins ||= Array.new
     end
 
     def log
