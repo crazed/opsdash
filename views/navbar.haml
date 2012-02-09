@@ -1,0 +1,8 @@
+.navbar.navbar-fixed-top
+  .navbar-inner
+    .container
+      %a.brand(href="/") Ops Dashboard
+      %ul.nav
+        - navigation_links.each do |plugin|
+          %li(class="#{navigation_link_active? ? 'active' : ''}")
+            %a(href="#{plugin[:index]}")= plugin[:name]

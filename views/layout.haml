@@ -1,3 +1,21 @@
 %html
-  %body
-    = yield
+  %head
+    %title= "Ops Dashboard :: #{plugin_name} :: #{plugin_link_name}"
+    %link(href="/bootstrap/css/bootstrap.css" rel="stylesheet")
+    %link(href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet")
+    :css
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidbar-nav {
+        padding: 9px 0;
+      }
+  %body(data-spy="scroll" data-target=".subnav" data-offset="50")
+    = haml :navbar
+    .container
+      .row-fluid
+        .span3
+          = haml :sidebar
+        .span9
+          = yield
