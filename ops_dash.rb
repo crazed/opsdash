@@ -16,6 +16,9 @@ unless Kernel.respond_to?(:require_relative)
   end
 end
 
+require_relative 'lib/core_ext/array'
+require_relative 'lib/core_ext/string'
+require_relative 'lib/sinatra/base'
 require_relative 'lib/ops_dash/plugin'
 require_relative 'lib/ops_dash/framework'
 
