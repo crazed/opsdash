@@ -85,7 +85,8 @@ module OpsDash
 
     def load_views
       Dir.glob(File.join(plugin_settings[:plugin_path], 'views', '*.haml')) do |haml_file|
-        @app.template haml_file.split('/').last.gsub('.haml','').to_sym do
+        haml_name = (plugin_settings[:root].strip_slashes + '_' + haml_file.split('/').last.gsub('.haml','')).to_sym
+        @app.template haml_name do
           File.read(haml_file)
         end
       end
