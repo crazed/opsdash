@@ -64,20 +64,12 @@ module OpsDash
     private
 
     def prefix_route(route)
-      route = strip_slashes(route)
+      route = route.strip_slashes
       if plugin_settings[:root]
-        root = strip_slashes(plugin_settings[:root])
+        root = plugin_settings[:root].strip_slashes
         route = "/#{root}/#{route}"
       end
-      strip_trailing_slash(route)
-    end
-
-    def strip_slashes(string)
-      string.gsub(/(^\/|\/$)/,'')
-    end
-
-    def strip_trailing_slash(string)
-      string.gsub(/\/$/,'')
+      route.chop_slash
     end
 
     def register_route(method, *args, &block)
