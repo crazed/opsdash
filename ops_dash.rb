@@ -2,7 +2,6 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/config_file'
-require 'sinatra/advanced_routes'
 require 'yaml'
 require 'json'
 require 'haml'
@@ -25,7 +24,6 @@ require_relative 'lib/ops_dash/framework'
 module OpsDash
   class App < Sinatra::Base
     register Sinatra::ConfigFile
-    register Sinatra::AdvancedRoutes
     register OpsDash::Framework
     config_file 'config.yaml'
     require_relative 'routes/init'
